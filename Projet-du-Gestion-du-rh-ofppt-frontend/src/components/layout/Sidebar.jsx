@@ -35,12 +35,15 @@ export default function Sidebar() {
   return (
     <aside className={`${collapsed ? 'w-16' : 'w-64'} flex-shrink-0 bg-surface-900 flex flex-col transition-all duration-300 ease-in-out h-screen sticky top-0`}>
       {/* Header */}
-      <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'} px-4 py-5 border-b border-white/10`}>
+      <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-start gap-3'} px-4 py-5 border-b border-white/10`}>
         {!collapsed && (
-          <div>
-            <p className="text-white font-semibold text-sm font-display leading-none">OFPPT</p>
-            <p className="text-slate-400 text-xs mt-0.5">Gestion RH</p>
-          </div>
+          <>
+            <img src={logo} alt="Logo" className="w-10 h-10 object-contain rounded-full overflow-hidden flex-shrink-0" />
+            <div className="animate-fadeIn">
+              <p className="text-white font-semibold text-sm font-display leading-none">OFPPT</p>
+              <p className="text-slate-400 text-xs mt-0.5">Gestion RH</p>
+            </div>
+          </>
         )}
         <button onClick={() => setCollapsed(!collapsed)}
           className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
