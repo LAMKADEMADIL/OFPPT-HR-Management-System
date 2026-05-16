@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
+import logo from '../../assets/logo.png';
 import { useAuth } from '../../hooks/useAuth';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -51,21 +52,23 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-900 flex items-center justify-center p-4">
-      {/* Background decoration */}
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 relative">
+      {/* Official OFPPT Logo on the far left corner */}
+      <div className="absolute top-10 left-10 animate-fadeIn hidden md:block">
+        <img src={logo} alt="OFPPT Logo" className="w-24 h-24 object-contain drop-shadow-sm rounded-full overflow-hidden" />
+      </div>
+
+      {/* Background decoration with reversed positions */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary-700/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-primary-200/40 rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-slate-200/50 rounded-full blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md animate-fadeIn">
-        {/* Logo */}
+        {/* Header without logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 shadow-lg shadow-primary-900/50 mb-4">
-            <span className="text-white font-bold text-2xl font-display">O</span>
-          </div>
-          <h1 className="text-2xl font-bold text-white font-display">OFPPT Gestion RH</h1>
-          <p className="text-slate-400 text-sm mt-1">Connectez-vous à votre espace</p>
+          <h1 className="text-2xl font-bold text-slate-900 font-display">OFPPT Gestion RH</h1>
+          <p className="text-slate-500 text-sm mt-1">Connectez-vous à votre espace</p>
         </div>
 
         {/* Card */}

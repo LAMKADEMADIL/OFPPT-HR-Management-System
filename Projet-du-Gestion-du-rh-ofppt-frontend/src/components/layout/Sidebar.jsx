@@ -4,6 +4,7 @@ import {
   UserCog, LogOut, ChevronLeft, Menu, CalendarRange, FileSpreadsheet, UserCircle,
 } from 'lucide-react';
 import { useState } from 'react';
+import logo from '../../assets/logo.png';
 import { useAuth } from '../../hooks/useAuth';
 import { getInitials } from '../../utils/helpers';
 import { ROLES } from '../../utils/constants'; // Import your Role constants
@@ -36,14 +37,9 @@ export default function Sidebar() {
       {/* Header */}
       <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'} px-4 py-5 border-b border-white/10`}>
         {!collapsed && (
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm font-display">O</span>
-            </div>
-            <div>
-              <p className="text-white font-semibold text-sm font-display leading-none">OFPPT</p>
-              <p className="text-slate-400 text-xs mt-0.5">Gestion RH</p>
-            </div>
+          <div>
+            <p className="text-white font-semibold text-sm font-display leading-none">OFPPT</p>
+            <p className="text-slate-400 text-xs mt-0.5">Gestion RH</p>
           </div>
         )}
         <button onClick={() => setCollapsed(!collapsed)}

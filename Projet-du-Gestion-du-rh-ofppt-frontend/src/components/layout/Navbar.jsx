@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import NotificationPanel from '../common/NotificationPanel';
+import logo from '../../assets/logo.png';
 import { UserAvatar } from '../../pages/Profile/ProfilePage';
 
 const PAGE_TITLES = {
@@ -26,11 +27,15 @@ export default function Navbar() {
 
   return (
     <header className="h-16 bg-white border-b border-surface-200 flex items-center justify-between px-6 flex-shrink-0 z-10">
-      <div>
-        <h1 className="text-lg font-semibold text-slate-800 font-display">{title}</h1>
-        <p className="text-xs text-slate-400">
-          {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-        </p>
+      <div className="flex items-center gap-4">
+        {/* Official OFPPT Logo on the far left */}
+        <img src={logo} alt="OFPPT Logo" className="w-10 h-10 object-contain rounded-full overflow-hidden" />
+        <div className="border-l border-surface-200 pl-4">
+          <h1 className="text-lg font-semibold text-slate-800 font-display">{title}</h1>
+          <p className="text-xs text-slate-400">
+            {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          </p>
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
