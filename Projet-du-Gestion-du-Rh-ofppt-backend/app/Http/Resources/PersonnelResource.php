@@ -16,6 +16,7 @@ class PersonnelResource extends JsonResource
     {
         return [
             'id' => $this->idPersonnel,
+            'matricule' => $this->matricule,
             'type_personnel' => $this->type_personnel,
             'statut' => $this->statut,
             'cin' => $this->cin,
