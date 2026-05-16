@@ -30,6 +30,9 @@ class PersonnelResource extends JsonResource
             'grade' => $this->grade,
             'echelon' => $this->echelon,
             'fonction' => $this->fonction,
+            'poste' => $this->fonction,
+            'specialite' => $this->idSpecialite ? ($this->specialite ? $this->specialite->nom_specialite : null) : ($this->specialites && $this->specialites->first() ? $this->specialites->first()->nom_specialite : null),
+            'adresse' => $this->adresse_actuelle,
             
             'etablissement' => new EtablissementResource($this->whenLoaded('etablissement')),
 

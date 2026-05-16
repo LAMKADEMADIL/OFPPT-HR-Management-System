@@ -34,14 +34,38 @@ const POSTES = [
 
 const toArray = (result) => Array.isArray(result) ? result : result?.data || [];
 
+const mapBackendToFrontend = (item) => {
+  let categorie = 'administratif';
+  if (item.type_personnel === 'formateur') {
+    categorie = item.statut === 'vacataire' ? 'formateur_vacataire' : 'formateur_permanent';
+  }
+  let specialite = item.specialite || '';
+  if (!specialite && item.specialites && item.specialites.length > 0) {
+    specialite = item.specialites[0].nom_specialite || item.specialites[0].nom || '';
+  }
+  let adresse = item.adresse || item.adresse_actuelle || '';
+  return { ...item, categorie, specialite, adresse };
+};
+
 const svc = {
   getAll: async () => {
     const result = await personnelService.getAll();
-    return toArray(result).filter((item) => item.categorie === 'administratif');
+    return toArray(result)
+      .map(mapBackendToFrontend)
+      .filter((item) => item.categorie === 'administratif');
   },
-  getById: personnelService.getById,
-  create:  (data) => personnelService.create({ ...data, categorie: 'administratif' }),
-  update:  personnelService.update,
+  getById: async (id) => {
+    const result = await personnelService.getById(id);
+    return mapBackendToFrontend(result?.data || result);
+  },
+  create: async (data) => {
+    const res = await personnelService.create({ ...data, categorie: 'administratif' });
+    return mapBackendToFrontend(res?.data || res);
+  },
+  update: async (id, data) => {
+    const res = await personnelService.update(id, data);
+    return mapBackendToFrontend(res?.data || res);
+  },
   remove:  personnelService.remove,
 };
 

@@ -60,7 +60,7 @@ class PersonnelSeeder extends Seeder
             );
 
             // 🔗 attach relations
-            $specIds = Specialite::whereIn('nom', $specialites)->pluck('id')->toArray();
+            $specIds = Specialite::whereIn('nom_specialite', $specialites)->pluck('idSpecialite')->toArray();
 
             $personnel->specialites()->sync($specIds);
         }

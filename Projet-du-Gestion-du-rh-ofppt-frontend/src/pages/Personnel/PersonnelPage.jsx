@@ -74,7 +74,12 @@ const mapBackendToFrontend = (item) => {
   if (item.type_personnel === 'formateur') {
     categorie = item.statut === 'vacataire' ? 'formateur_vacataire' : 'formateur_permanent';
   }
-  return { ...item, categorie };
+  let specialite = item.specialite || '';
+  if (!specialite && item.specialites && item.specialites.length > 0) {
+    specialite = item.specialites[0].nom_specialite || item.specialites[0].nom || '';
+  }
+  let adresse = item.adresse || item.adresse_actuelle || '';
+  return { ...item, categorie, specialite, adresse };
 };
 
 const mapFrontendToBackend = (form) => {
@@ -208,8 +213,17 @@ export default function PersonnelPage() {
         toast.success('Personnel ajouté avec succès.');
       }
       setFormOpen(false);
-    } catch {
-      toast.error("Erreur lors de l'enregistrement.");
+    } catch (err) {
+      const msg = err.response?.data?.message || "Erreur lors de l'enregistrement.";
+      toast.error(msg);
+      if (err.response?.data?.errors) {
+        // Map backend errors (which could be arrays) to string
+        const mappedErrors = {};
+        Object.entries(err.response.data.errors).forEach(([key, val]) => {
+          mappedErrors[key] = Array.isArray(val) ? val[0] : val;
+        });
+        setErrors(mappedErrors);
+      }
     } finally {
       setSaving(false);
     }

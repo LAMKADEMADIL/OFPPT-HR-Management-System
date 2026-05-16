@@ -50,19 +50,37 @@ class PersonnelController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePersonnelRequest $request)
     {  
-        $personnel = Personnel::create($request->validated());
+        $data = $request->validated();
+        if (isset($data['adresse'])) {
+            $data['adresse_actuelle'] = $data['adresse'];
+        }
+        if (isset($data['poste'])) {
+            $data['fonction'] = $data['poste'];
+        }
         
-        if ($request->has('specialites')) {
+        $data['nom_prenom'] = trim(($data['prenom'] ?? '') . ' ' . ($data['nom'] ?? ''));
+
+        $personnel = Personnel::create($data);
+        
+        if ($request->filled('specialite')) {
+            $specialite = \App\Models\Specialite::firstOrCreate(
+                ['nom_specialite' => $request->specialite],
+                ['type_specialite' => 'enseignee']
+            );
+            $personnel->specialites()->sync([$specialite->idSpecialite]);
+            $personnel->update(['idSpecialite' => $specialite->idSpecialite]);
+        }
+
+        if ($request->has('specialites') && !$request->filled('specialite')) {
             $personnel->specialites()->sync($request->specialites);
         }
         if ($request->has('diplomes')) {
             $personnel->diplomes()->sync($request->diplomes);
         }
+        
+        $personnel->load(['etablissement', 'specialites', 'diplomes']);
         
         return new PersonnelResource($personnel);
     }
@@ -83,14 +101,40 @@ class PersonnelController extends Controller
     public function update(UpdatePersonnelRequest $request, string $id)
     {
         $p = Personnel::findOrFail($id);
-        $p->update($request->validated());
+        
+        $data = $request->validated();
+        if (isset($data['adresse'])) {
+            $data['adresse_actuelle'] = $data['adresse'];
+        }
+        if (isset($data['poste'])) {
+            $data['fonction'] = $data['poste'];
+        }
+        
+        if (isset($data['prenom']) || isset($data['nom'])) {
+            $nom = $data['nom'] ?? $p->nom;
+            $prenom = $data['prenom'] ?? $p->prenom;
+            $data['nom_prenom'] = trim($prenom . ' ' . $nom);
+        }
 
-        if ($request->has('specialites')) {
+        $p->update($data);
+
+        if ($request->filled('specialite')) {
+            $specialite = \App\Models\Specialite::firstOrCreate(
+                ['nom_specialite' => $request->specialite],
+                ['type_specialite' => 'enseignee']
+            );
+            $p->specialites()->sync([$specialite->idSpecialite]);
+            $p->update(['idSpecialite' => $specialite->idSpecialite]);
+        }
+
+        if ($request->has('specialites') && !$request->filled('specialite')) {
             $p->specialites()->sync($request->specialites);
         }
         if ($request->has('diplomes')) {
             $p->diplomes()->sync($request->diplomes);
         }
+
+        $p->load(['etablissement', 'specialites', 'diplomes']);
 
         return new PersonnelResource($p);
     }
