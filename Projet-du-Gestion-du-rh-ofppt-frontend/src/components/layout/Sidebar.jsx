@@ -35,20 +35,28 @@ export default function Sidebar() {
   return (
     <aside className={`${collapsed ? 'w-16' : 'w-64'} flex-shrink-0 bg-surface-900 flex flex-col transition-all duration-300 ease-in-out h-screen sticky top-0`}>
       {/* Header */}
-      <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-start gap-3'} px-4 py-5 border-b border-white/10`}>
-        {!collapsed && (
+      <div className={`relative flex ${collapsed ? 'items-center justify-center py-5' : 'flex-col items-center justify-center py-6 px-4'} border-b border-white/10`}>
+        {!collapsed ? (
           <>
-            <img src={logo} alt="Logo" className="w-10 h-10 object-contain rounded-full overflow-hidden flex-shrink-0" />
-            <div className="animate-fadeIn">
-              <p className="text-white font-semibold text-sm font-display leading-none">OFPPT</p>
-              <p className="text-slate-400 text-xs mt-0.5">Gestion RH</p>
+            {/* Logo in the center */}
+            <img src={logo} alt="Logo" className="w-14 h-14 object-contain rounded-full overflow-hidden mb-3 drop-shadow-md" />
+            {/* Text below the logo and centered */}
+            <div className="text-center animate-fadeIn">
+              <p className="text-white font-bold text-lg font-display tracking-wide">OFPPT</p>
+              <p className="text-slate-400 text-xs mt-1 font-medium">Gestion des Ressources Humaines</p>
             </div>
+            {/* Arrow button on the far right */}
+            <button onClick={() => setCollapsed(!collapsed)}
+              className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+              <ChevronLeft size={16} />
+            </button>
           </>
+        ) : (
+          <button onClick={() => setCollapsed(!collapsed)}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+            <Menu size={16} />
+          </button>
         )}
-        <button onClick={() => setCollapsed(!collapsed)}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
-          {collapsed ? <Menu size={16} /> : <ChevronLeft size={16} />}
-        </button>
       </div>
 
       {/* Nav */}
