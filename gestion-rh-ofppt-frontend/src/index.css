@@ -1,0 +1,202 @@
+/* ── 1. External fonts (must come first) ────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── 2. Tailwind 4 ──────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ── Tailwind 4 — CSS-first configuration ──────────────────── */
+
+
+/* ── Google Fonts ───────────────────────────────────────────── */
+
+
+/* ── Design tokens (OKLCH for perceptual uniformity) ────────── */
+@theme {
+  /* Brand colours */
+  --color-primary-50:  oklch(97% 0.015 264);
+  --color-primary-100: oklch(93% 0.04  264);
+  --color-primary-200: oklch(87% 0.08  264);
+  --color-primary-300: oklch(78% 0.13  264);
+  --color-primary-400: oklch(68% 0.18  264);
+  --color-primary-500: oklch(58% 0.22  264);
+  --color-primary-600: oklch(50% 0.24  264);
+  --color-primary-700: oklch(42% 0.22  264);
+  --color-primary-800: oklch(36% 0.19  264);
+  --color-primary-900: oklch(30% 0.15  264);
+  --color-primary-950: oklch(22% 0.10  264);
+
+  /* Accent (amber) */
+  --color-accent-400: oklch(82% 0.17  80);
+  --color-accent-500: oklch(75% 0.19  80);
+  --color-accent-600: oklch(68% 0.18  80);
+
+  /* Surface neutrals */
+  --color-surface-50:  oklch(98.5% 0.005 264);
+  --color-surface-100: oklch(96%   0.010 264);
+  --color-surface-200: oklch(92%   0.012 264);
+  --color-surface-800: oklch(28%   0.025 264);
+  --color-surface-900: oklch(22%   0.025 264);
+  --color-surface-950: oklch(16%   0.020 264);
+
+  /* Typography */
+  --font-family-display: "Sora", sans-serif;
+  --font-family-body:    "DM Sans", sans-serif;
+  --font-family-mono:    "JetBrains Mono", monospace;
+
+  /* Shadows */
+  --shadow-card:       0 1px 3px oklch(0% 0 0 / 6%), 0 4px 16px oklch(0% 0 0 / 6%);
+  --shadow-card-hover: 0 4px 8px oklch(0% 0 0 / 8%), 0 8px 32px oklch(0% 0 0 / 10%);
+  --shadow-glow:       0 0 0 3px oklch(58% 0.22 264 / 20%);
+
+  /* Radii */
+  --radius-xl:  0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+
+  /* Spacing extras */
+  --spacing-18: 4.5rem;
+}
+
+/* ── Base resets ────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-family-body);
+    background-color: var(--color-surface-100);
+    color: var(--color-surface-800);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ── Reusable component utilities ───────────────────────────── */
+@layer components {
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: oklch(60% 0.01 264);
+  }
+  .sidebar-link:hover {
+    color: white;
+    background-color: oklch(100% 0 0 / 10%);
+  }
+  .sidebar-link.active {
+    color: white;
+    background-color: var(--color-primary-600);
+    box-shadow: 0 4px 12px oklch(22% 0.10 264 / 40%);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background-color: var(--color-primary-600);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    transition: all 0.15s;
+    box-shadow: 0 2px 8px var(--color-primary-600) / 25%;
+  }
+  .btn-primary:hover  { background-color: var(--color-primary-700); }
+  .btn-primary:active { scale: 0.97; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background-color: white;
+    color: oklch(35% 0.02 264);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-surface-200);
+    transition: all 0.15s;
+    box-shadow: 0 1px 2px oklch(0% 0 0 / 5%);
+  }
+  .btn-secondary:hover  { background-color: var(--color-surface-50); }
+  .btn-secondary:active { scale: 0.97; }
+
+  .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background-color: oklch(62% 0.21 25);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    transition: all 0.15s;
+    box-shadow: 0 2px 8px oklch(62% 0.21 25 / 25%);
+  }
+  .btn-danger:hover  { background-color: oklch(55% 0.22 25); }
+  .btn-danger:active { scale: 0.97; }
+
+  .card {
+    background-color: white;
+    border-radius: 1rem;
+    border: 1px solid var(--color-surface-200);
+    box-shadow: var(--shadow-card);
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background-color: white;
+    border: 1px solid var(--color-surface-200);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    color: oklch(35% 0.02 264);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .input-field::placeholder { color: oklch(68% 0.01 264); }
+  .input-field:focus {
+    border-color: var(--color-primary-400);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .badge        { display: inline-flex; align-items: center; padding: 0.125rem 0.625rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+  .badge-green  { background-color: oklch(95% 0.06 155); color: oklch(40% 0.14 155); }
+  .badge-yellow { background-color: oklch(96% 0.06 80);  color: oklch(45% 0.14 80); }
+  .badge-red    { background-color: oklch(96% 0.05 25);  color: oklch(45% 0.18 25); }
+  .badge-blue   { background-color: oklch(95% 0.05 240); color: oklch(42% 0.16 240); }
+  .badge-gray   { background-color: oklch(94% 0.01 264); color: oklch(45% 0.02 264); }
+}
+
+/* ── Custom scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: oklch(80% 0.01 264); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(70% 0.01 264); }
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; translate: 0 8px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+@keyframes slideIn {
+  from { opacity: 0; translate: -12px 0; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+.animate-fadeIn  { animation: fadeIn  0.25s ease forwards; }
+.animate-slideIn { animation: slideIn 0.20s ease forwards; }
